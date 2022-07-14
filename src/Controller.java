@@ -1,0 +1,73 @@
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * created by: darja
+ * created at: 2022-07-11
+ * using: IntelliJ IDEA
+ */
+public class Controller extends JFrame {
+
+    private final TopPanel topPanel;
+    private final GameOptions gameOptions;
+    private GridPanel gridPanel;
+    private final JPanel basePanel;
+
+    public Controller(){
+        gameOptions = new GameOptions(GameOptions.EASY);
+
+        MSMenuBar mSMenuBar = new MSMenuBar(this);
+        basePanel = new JPanel(new BorderLayout());
+        topPanel = new TopPanel(this,gameOptions);
+        gridPanel = new GridPanel(this,this.gameOptions);
+
+        setJMenuBar(mSMenuBar);
+
+        basePanel.add(topPanel,BorderLayout.NORTH);
+        basePanel.add(gridPanel,BorderLayout.CENTER);
+
+        add(basePanel);
+
+        setSize(gameOptions.getGridWidth(), gameOptions.getGridHeight());
+        setLocation(600,300);
+        setTitle("Mine Sweeper");
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void stopTime(){
+        topPanel.stopTime();
+    }
+    public void startTime(){
+        topPanel.startTime();
+    }
+
+    public void resetGameTo(String difficulty){
+        gameOptions.reCreateInstance(difficulty);
+        topPanel.resetTime();
+        topPanel.resetMineCount();
+        basePanel.removeAll();
+        resizeFrameSize();
+        topPanel.changeSmiley(TopPanel.WHITE_SMILEY);
+        gridPanel = new GridPanel(this,gameOptions);
+        basePanel.add(topPanel,BorderLayout.NORTH);
+        basePanel.add(gridPanel,BorderLayout.CENTER);
+        basePanel.revalidate();
+        basePanel.repaint();
+    }
+
+    private void resizeFrameSize(){
+        setSize(gameOptions.getGridWidth(),gameOptions.getGridHeight());
+    }
+
+    public void changeSmiley(String smileyUnicode){
+        topPanel.changeSmiley(smileyUnicode);
+    }
+
+    public void updateMineCount(int change){
+        int newMineCount = gameOptions.updateMineCount(change);
+        topPanel.updateMineCount(newMineCount);
+    }
+
+}
