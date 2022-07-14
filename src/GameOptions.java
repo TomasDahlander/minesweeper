@@ -35,7 +35,6 @@ public class GameOptions implements Serializable {
             case NORMAL -> this.setGridWidth(396).setGridHeight(440).setGridCols(15).setGridRows(15).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL);
             case HARD -> this.setGridWidth(800).setGridHeight(460).setGridCols(30).setGridRows(16).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD);
         }
-        System.out.println(this);
     }
 
     public int updateMineCount(int change){
