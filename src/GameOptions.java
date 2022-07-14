@@ -14,9 +14,9 @@ public class GameOptions implements Serializable {
     public static final String NORMAL = "Normal";
     public static final String HARD = "Hard";
 
-    public static final int MINES_EASY = 10;
-    public static final int MINES_NORMAL = 40;
-    public static final int MINES_HARD = 99;
+    private static final int MINES_EASY = 10;
+    private static final int MINES_NORMAL = 40;
+    private static final int MINES_HARD = 99;
 
     private int gridWidth; // Screen width
     private int gridHeight; // Screen height
