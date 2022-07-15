@@ -33,7 +33,7 @@ public class Grid extends JLabel {
     private final int row;
     private final int col;
 
-    private boolean pressed;
+    private boolean revealed;
     private boolean showFlag;
     private String symbolType;
     private String value;
@@ -54,13 +54,13 @@ public class Grid extends JLabel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(gridPanel.isDead()) return;
+                if(gridPanel.isGameStopped()) return;
                 if(!gridPanel.isStarted()) {
                     gridPanel.startTime();
                     gridPanel.setStarted(true);
                 }
                 if(e.getButton() == 1 && !showFlag) handleLeftClick();
-                if(e.getButton() == 3 && !pressed) handleRightClick();
+                if(e.getButton() == 3 && !revealed) handleRightClick();
             }
         });
     }
@@ -78,7 +78,7 @@ public class Grid extends JLabel {
     }
 
     private void handleLeftClick(){
-        if(pressed) return;
+        if(revealed) return;
         switch (symbolType){
             case NUMBER : {showValue(); break;}
             case MINE : {showMine(); break;}
@@ -113,29 +113,31 @@ public class Grid extends JLabel {
         this.value = value;
         this.symbolType = NUMBER;
     }
+
     public void showBlank(){
-        this.pressed = true;
+        gridPanel.increaseRevealed();
+        this.revealed = true;
         this.setBackground(BLANK_AREA);
     }
     public void showValue(){
-        this.pressed = true;
+        gridPanel.increaseRevealed();
+        this.revealed = true;
         this.setText(value);
         this.setForeground(getColorByValue());
     }
     public void showMine(){
-        this.pressed = true;
+        this.revealed = true;
         this.setText(MINE_ICON);
         this.setBackground(Color.RED);
-        gridPanel.setDead(true);
-        gridPanel.changeSmiley(TopPanel.BLACK_SMILEY);
+        gridPanel.setGameStopped(true);
+        gridPanel.changeSmiley(TopPanel.BLACK_SMILEY_ICON);
     }
 
     public boolean hasFlag() {
         return showFlag;
     }
-
-    public boolean isPressed() {
-        return pressed;
+    public boolean isRevealed() {
+        return revealed;
     }
     public int getRow() {
         return row;

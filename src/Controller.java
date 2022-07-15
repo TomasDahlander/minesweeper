@@ -39,26 +39,9 @@ public class Controller extends JFrame {
     public void stopTime(){
         topPanel.stopTime();
     }
+
     public void startTime(){
         topPanel.startTime();
-    }
-
-    public void resetGameTo(String difficulty){
-        gameOptions.reCreateInstance(difficulty);
-        topPanel.resetTime();
-        topPanel.resetMineCount();
-        basePanel.removeAll();
-        resizeFrameSize();
-        topPanel.changeSmiley(TopPanel.WHITE_SMILEY);
-        gridPanel = new GridPanel(this,gameOptions);
-        basePanel.add(topPanel,BorderLayout.NORTH);
-        basePanel.add(gridPanel,BorderLayout.CENTER);
-        basePanel.revalidate();
-        basePanel.repaint();
-    }
-
-    private void resizeFrameSize(){
-        setSize(gameOptions.getGridWidth(),gameOptions.getGridHeight());
     }
 
     public void changeSmiley(String smileyUnicode){
@@ -70,4 +53,21 @@ public class Controller extends JFrame {
         topPanel.updateMineCount(newMineCount);
     }
 
+    public void resetGameTo(String difficulty){
+        gameOptions.reCreateInstance(difficulty);
+        topPanel.resetTime();
+        topPanel.resetMineCount();
+        basePanel.removeAll();
+        resizeFrameSize();
+        topPanel.changeSmiley(TopPanel.WHITE_SMILEY_ICON);
+        gridPanel = new GridPanel(this,gameOptions);
+        basePanel.add(topPanel,BorderLayout.NORTH);
+        basePanel.add(gridPanel,BorderLayout.CENTER);
+        basePanel.revalidate();
+        basePanel.repaint();
+    }
+
+    private void resizeFrameSize(){
+        setSize(gameOptions.getGridWidth(),gameOptions.getGridHeight());
+    }
 }

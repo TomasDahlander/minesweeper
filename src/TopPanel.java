@@ -12,8 +12,9 @@ import java.awt.event.MouseEvent;
  */
 public class TopPanel extends JPanel {
 
-    public static final String WHITE_SMILEY = "\u263A";
-    public static final String BLACK_SMILEY = "\u263B";
+    public static final String WHITE_SMILEY_ICON = "\u263A";
+    public static final String BLACK_SMILEY_ICON = "\u263B";
+    public static final String COFFEE_ICON = "\u2615";
 
     private final Controller controller;
     private final GameOptions gameOptions;
@@ -33,7 +34,7 @@ public class TopPanel extends JPanel {
         seconds = 0;
 
         mineCount = new JLabel(String.format("%03d",gameOptions.getAmountOfMinesLeft()),SwingConstants.LEFT);
-        resetFace = new JLabel(WHITE_SMILEY,SwingConstants.CENTER);
+        resetFace = new JLabel(WHITE_SMILEY_ICON,SwingConstants.CENTER);
         timeCount = new JLabel("000",SwingConstants.RIGHT);
 
         add(mineCount);

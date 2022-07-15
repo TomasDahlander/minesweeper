@@ -17,8 +17,10 @@ public class GridPanel extends JPanel {
 
     private Grid[][] grid;
 
-    private boolean dead;
+    private boolean gameStopped;
     private boolean started;
+    private int revealed;
+    private int revealToFinish;
 
     public GridPanel(Controller controller,GameOptions gameOptions){
         this.controller = controller;
@@ -27,58 +29,16 @@ public class GridPanel extends JPanel {
         setLayout(new GridLayout(this.gameOptions.getGridRows(),this.gameOptions.getGridCols()));
         setBorder(new EtchedBorder(EtchedBorder.RAISED,Color.BLACK,null));
 
+        calculateFinishParameters();
         setUpGrid();
         addMines();
         addNumber();
     }
 
-    public boolean isDead(){
-        return dead;
-    }
-    public void setDead(boolean dead){
-        this.dead = dead;
-        controller.stopTime();
-    }
-    public boolean isStarted() {
-        return started;
-    }
-    public void setStarted(boolean started){
-        this.started = started;
-    }
-    public void startTime(){
-        controller.startTime();
-    }
-    public void changeSmiley(String smileyUnicode){
-        controller.changeSmiley(smileyUnicode);
-    }
-
-    public void updateMineCount(int change){
-        controller.updateMineCount(change);
-    }
-
-    public void openConnectedBlankArea(Grid initialCell){
-        Queue<Grid> grids = new LinkedList<>();
-        grids.add(initialCell);
-        while(!grids.isEmpty()){
-            Grid polled = grids.poll();
-            for(int r = polled.getRow()-1; r < polled.getRow()+2; r++){
-                for(int c = polled.getCol()-1; c < polled.getCol()+2; c++){
-                    try{
-                        Grid cell = grid[r][c];
-                        if(!cell.isPressed() && !cell.hasFlag()){
-                            if(cell.getSymbolType().equals(Grid.BLANK)){
-                                grids.add(cell);
-                                cell.showBlank();
-                            }else if(cell.getSymbolType().equals(Grid.NUMBER)){
-                                cell.showValue();
-                            }
-                        }
-                    }catch(IndexOutOfBoundsException ignored){
-                        // When indexing outside of board, simply continue iteration
-                    }
-                }
-            }
-        }
+    // Setup methods
+    private void calculateFinishParameters(){
+        revealed = 0;
+        revealToFinish = (gameOptions.getGridRows() * gameOptions.getGridCols()) - gameOptions.getAmountOfMinesLeft();
     }
 
     private void setUpGrid(){
@@ -126,5 +86,69 @@ public class GridPanel extends JPanel {
             }
         }
         if(mines > 0) grid[row][col].setValue(String.valueOf(mines));
+    }
+
+    // Controller methods
+    public void startTime(){
+        controller.startTime();
+    }
+    public void changeSmiley(String smileyUnicode){
+        controller.changeSmiley(smileyUnicode);
+    }
+    public void updateMineCount(int change){
+        controller.updateMineCount(change);
+    }
+
+    // GridPanel public methods
+    public void openConnectedBlankArea(Grid initialCell){
+        Queue<Grid> grids = new LinkedList<>();
+        grids.add(initialCell);
+        while(!grids.isEmpty()){
+            Grid polled = grids.poll();
+            for(int r = polled.getRow()-1; r < polled.getRow()+2; r++){
+                for(int c = polled.getCol()-1; c < polled.getCol()+2; c++){
+                    try{
+                        Grid cell = grid[r][c];
+                        if(!cell.isRevealed() && !cell.hasFlag()){
+                            if(cell.getSymbolType().equals(Grid.BLANK)){
+                                grids.add(cell);
+                                cell.showBlank();
+                            }else if(cell.getSymbolType().equals(Grid.NUMBER)){
+                                cell.showValue();
+                            }
+                        }
+                    }catch(IndexOutOfBoundsException ignored){
+                        // When indexing outside of board, simply continue iteration
+                    }
+                }
+            }
+        }
+    }
+
+    // Getter and setters
+    public int getRevealed() {
+        return revealed;
+    }
+    public void increaseRevealed(){
+        revealed++;
+        if(revealed == revealToFinish){
+            gameStopped = true;
+            controller.stopTime();
+            controller.changeSmiley(TopPanel.COFFEE_ICON);
+            // Send to highscore
+        }
+    }
+    public boolean isGameStopped(){
+        return gameStopped;
+    }
+    public void setGameStopped(boolean gameStopped){
+        this.gameStopped = gameStopped;
+        controller.stopTime();
+    }
+    public boolean isStarted() {
+        return started;
+    }
+    public void setStarted(boolean started){
+        this.started = started;
     }
 }
