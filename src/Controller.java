@@ -32,7 +32,7 @@ public class Controller extends JFrame {
         setLocation(500,200);
         setTitle("Mine Sweeper");
         setVisible(true);
-//        setResizable(false);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
