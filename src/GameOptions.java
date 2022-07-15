@@ -1,14 +1,9 @@
-import java.io.Serial;
-import java.io.Serializable;
-
 /**
  * created by: darja
  * created at: 2022-07-12
  * using: IntelliJ IDEA
  */
-public class GameOptions implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1905122041950251207L;
+public class GameOptions {
 
     public static final String EASY = "Easy";
     public static final String NORMAL = "Normal";
@@ -31,9 +26,9 @@ public class GameOptions implements Serializable {
 
     public void reCreateInstance(String difficulty){
         switch (difficulty) {
-            case EASY -> this.setGridWidth(245).setGridHeight(300).setGridCols(9).setGridRows(9).setAmountOfMinesLeft(MINES_EASY).setDifficulty(EASY);
-            case NORMAL -> this.setGridWidth(396).setGridHeight(440).setGridCols(15).setGridRows(15).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL);
-            case HARD -> this.setGridWidth(800).setGridHeight(460).setGridCols(30).setGridRows(16).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD);
+            case EASY : {this.setGridWidth(245).setGridHeight(300).setGridCols(9).setGridRows(9).setAmountOfMinesLeft(MINES_EASY).setDifficulty(EASY); break;}
+            case NORMAL : {this.setGridWidth(396).setGridHeight(440).setGridCols(15).setGridRows(15).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL); break;}
+            case HARD : {this.setGridWidth(800).setGridHeight(460).setGridCols(30).setGridRows(16).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD); break;}
         }
     }
 

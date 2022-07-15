@@ -80,9 +80,9 @@ public class Grid extends JLabel {
     private void handleLeftClick(){
         if(pressed) return;
         switch (symbolType){
-            case NUMBER -> showValue();
-            case MINE -> showMine();
-            case BLANK -> {
+            case NUMBER : {showValue(); break;}
+            case MINE : {showMine(); break;}
+            case BLANK : {
                 showBlank();
                 gridPanel.openConnectedBlankArea(this);
             }
@@ -90,17 +90,17 @@ public class Grid extends JLabel {
     }
 
     private Color getColorByValue(){
-        return switch (value) {
-            case "1" -> COLOR_ONE;
-            case "2" -> COLOR_TWO;
-            case "3" -> COLOR_THREE;
-            case "4" -> COLOR_FOUR;
-            case "5" -> COLOR_FIVE;
-            case "6" -> COLOR_SIX;
-            case "7" -> COLOR_SEVEN;
-            case "8" -> COLOR_EIGHT;
-            default -> null;
-        };
+        switch (value) {
+            case "1" : return COLOR_ONE;
+            case "2" : return COLOR_TWO;
+            case "3" : return COLOR_THREE;
+            case "4" : return COLOR_FOUR;
+            case "5" : return COLOR_FIVE;
+            case "6" : return COLOR_SIX;
+            case "7" : return COLOR_SEVEN;
+            case "8" : return COLOR_EIGHT;
+        }
+        return null;
     }
 
     public String getSymbolType() {
