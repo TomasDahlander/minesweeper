@@ -6,6 +6,7 @@
 2. [How to play](#play)
 3. [Rules](#rules)
 4. [Updates to come](#updates)
+5. [Copy right](#copy-right)
 
 ## <a name="req" href="#req">Requirements</a>
 You need atleast Java 1.8.0 installed on your machine.
@@ -47,3 +48,6 @@ To win simply reveal all cells except the mines which can be marked with a flag
 To check for updates imply run the Check-for-updates.bat file.
 ### Coming updates
 * Functionality to save and view local highscore.
+
+## <a name="copy-right" href="#copy-right">Copy right</a>
+Tomas Dahlander
