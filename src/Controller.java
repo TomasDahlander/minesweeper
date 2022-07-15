@@ -29,10 +29,10 @@ public class Controller extends JFrame {
         add(basePanel);
 
         setSize(gameOptions.getGridWidth(), gameOptions.getGridHeight());
-        setLocation(600,300);
+        setLocation(500,200);
         setTitle("Mine Sweeper");
         setVisible(true);
-        setResizable(false);
+//        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 

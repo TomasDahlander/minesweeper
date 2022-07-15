@@ -53,6 +53,9 @@ To change the icon for the shortcut simply right-click on the created shortcut<b
 and choose properties(egenskaper) and click on the tab Shortcut(Genväg).<br>
 Then click on Change icon...(Byt ikon...) and choose which ever you want.
 
+To start with a minimized terminal window simply choose Minimized(Minimerat)<br>
+in the field Run in(Kör i) and the terminal will by default be minimized.
+
 ## <a name="updates" href="#updates">Updates to come</a>
 To check for updates imply run the Check-for-updates.bat file.
 ### Coming updates

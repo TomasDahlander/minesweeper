@@ -26,9 +26,9 @@ public class GameOptions {
 
     public void reCreateInstance(String difficulty){
         switch (difficulty) {
-            case EASY : {this.setGridWidth(245).setGridHeight(300).setGridCols(9).setGridRows(9).setAmountOfMinesLeft(MINES_EASY).setDifficulty(EASY); break;}
-            case NORMAL : {this.setGridWidth(396).setGridHeight(440).setGridCols(15).setGridRows(15).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL); break;}
-            case HARD : {this.setGridWidth(800).setGridHeight(460).setGridCols(30).setGridRows(16).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD); break;}
+            case EASY : {this.setGridWidth(265).setGridHeight(335).setGridCols(9).setGridRows(9).setAmountOfMinesLeft(MINES_EASY).setDifficulty(EASY); break;}
+            case NORMAL : {this.setGridWidth(445).setGridHeight(485).setGridCols(15).setGridRows(15).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL); break;}
+            case HARD : {this.setGridWidth(850).setGridHeight(515).setGridCols(30).setGridRows(16).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD); break;}
         }
     }
 

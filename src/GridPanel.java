@@ -1,9 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 /**
  * created by: darja
@@ -16,6 +15,7 @@ public class GridPanel extends JPanel {
     private final GameOptions gameOptions;
 
     private Grid[][] grid;
+    private List<Grid> mineLocations;
 
     private boolean gameStopped;
     private boolean started;
@@ -25,6 +25,7 @@ public class GridPanel extends JPanel {
     public GridPanel(Controller controller,GameOptions gameOptions){
         this.controller = controller;
         this.gameOptions = gameOptions;
+        this.mineLocations = new ArrayList<>();
 
         setLayout(new GridLayout(this.gameOptions.getGridRows(),this.gameOptions.getGridCols()));
         setBorder(new EtchedBorder(EtchedBorder.RAISED,Color.BLACK,null));
@@ -61,6 +62,7 @@ public class GridPanel extends JPanel {
 
             if(!grid[row][col].getSymbolType().equals(Grid.MINE)){
                 grid[row][col].setSymbolType(Grid.MINE);
+                mineLocations.add(grid[row][col]);
                 count++;
             }
         }
@@ -125,19 +127,26 @@ public class GridPanel extends JPanel {
         }
     }
 
-    // Getter and setters
-    public int getRevealed() {
-        return revealed;
-    }
     public void increaseRevealed(){
         revealed++;
         if(revealed == revealToFinish){
             gameStopped = true;
             controller.stopTime();
             controller.changeSmiley(TopPanel.COFFEE_ICON);
+            revealLeftOverMines();
             // Send to highscore
         }
     }
+
+    public void revealLeftOverMines(){
+        for(Grid mine : mineLocations){
+            if(!mine.hasFlag() && !mine.isRevealed()){
+                mine.showMineForInfo();
+            }
+        }
+    }
+
+    // Getter and setters
     public boolean isGameStopped(){
         return gameStopped;
     }

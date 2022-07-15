@@ -45,9 +45,9 @@ public class TopPanel extends JPanel {
         resetFace.setBorder(new EmptyBorder(0,0,2,0));
         timeCount.setBorder(new EmptyBorder(0,5,2,5));
 
-        mineCount.setFont(new Font(Font.DIALOG,Font.PLAIN,16));
-        resetFace.setFont(new Font(Font.MONOSPACED,Font.BOLD,16));
-        timeCount.setFont(new Font(Font.DIALOG,Font.PLAIN,16));
+        mineCount.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
+        resetFace.setFont(new Font(Font.MONOSPACED,Font.BOLD,20));
+        timeCount.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
 
         timeCount.setSize(30,20);
 

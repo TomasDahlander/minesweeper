@@ -131,8 +131,12 @@ public class Grid extends JLabel {
         this.setBackground(Color.RED);
         gridPanel.setGameStopped(true);
         gridPanel.changeSmiley(TopPanel.BLACK_SMILEY_ICON);
+        gridPanel.revealLeftOverMines();
     }
 
+    public void showMineForInfo(){
+        this.setText(MINE_ICON);
+    }
     public boolean hasFlag() {
         return showFlag;
     }
