@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * created by: darja
@@ -9,11 +11,12 @@ import java.awt.event.ActionListener;
 public class MSMenuBar extends JMenuBar {
 
     private final Controller controller;
+    private boolean highScoreIsUp;
 
     public MSMenuBar(Controller controller) {
         this.controller = controller;
 
-        // Create meny button
+        // Create menu button
         JMenu menu = new JMenu("Settings");
 
         // Creating menu items
@@ -50,7 +53,17 @@ public class MSMenuBar extends JMenuBar {
 
     private ActionListener getHighScoreListener(){
         return e -> {
-            System.out.println("Should view highscore in another JFrame");
+            if(!highScoreIsUp){
+                highScoreIsUp = true;
+                HighScoreWindow highScoreWindow = new HighScoreWindow();
+                highScoreWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        highScoreIsUp = false;
+                        e.getWindow().dispose();
+                    }
+                });
+            }
         };
     }
 }

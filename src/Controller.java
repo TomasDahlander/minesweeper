@@ -12,6 +12,7 @@ public class Controller extends JFrame {
     private final GameOptions gameOptions;
     private GridPanel gridPanel;
     private final JPanel basePanel;
+    private final HighscoreHandler highscoreHandler = HighscoreHandler.getInstance();
 
     public Controller(){
         gameOptions = new GameOptions(GameOptions.EASY);
@@ -46,6 +47,12 @@ public class Controller extends JFrame {
 
     public void changeSmiley(String smileyUnicode){
         topPanel.changeSmiley(smileyUnicode);
+    }
+
+    public void saveToHighscore(){
+        Highscore h = new Highscore(topPanel.getSeconds(), gameOptions.getDifficulty());
+        highscoreHandler.addScore(h);
+        highscoreHandler.saveData();
     }
 
     public void updateMineCount(int change){

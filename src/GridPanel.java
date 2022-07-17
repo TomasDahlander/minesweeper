@@ -15,7 +15,7 @@ public class GridPanel extends JPanel {
     private final GameOptions gameOptions;
 
     private Grid[][] grid;
-    private List<Grid> mineLocations;
+    private final List<Grid> mineLocations;
 
     private boolean gameStopped;
     private boolean started;
@@ -134,7 +134,7 @@ public class GridPanel extends JPanel {
             controller.stopTime();
             controller.changeSmiley(TopPanel.COFFEE_ICON);
             revealLeftOverMines();
-            // Send to highscore
+            controller.saveToHighscore();
         }
     }
 

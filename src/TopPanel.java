@@ -59,6 +59,10 @@ public class TopPanel extends JPanel {
         });
     }
 
+    public int getSeconds(){
+        return this.seconds;
+    }
+
     public void updateMineCount(int newMineCount){
         mineCount.setText(String.format("%03d",newMineCount));
     }
