@@ -46,10 +46,7 @@ public class HighScoreWindow extends JFrame {
     public void setUpExportButton(){
         JPanel bottomPanel = new JPanel();
         JButton exportButton = new JButton("Export to word document");
-        exportButton.addActionListener(l -> {
-            System.out.println("Pressed export button");
-            HighscoreHandler.getInstance().exportToWord();
-        });
+        exportButton.addActionListener(l -> HighscoreHandler.getInstance().exportToWord());
         bottomPanel.add(exportButton, CENTER_ALIGNMENT);
         add(bottomPanel, BorderLayout.SOUTH);
     }

@@ -38,21 +38,7 @@ public class HighscoreHandler {
     }
 
     public void addScore(Highscore highscore) {
-        if(highScores.isEmpty()) {
-            highScores.add(highscore);
-        }
-        else {
-            for (int i = 0; i < this.highScores.size(); i++) {
-                if (highscore.getTime() < this.highScores.get(i).getTime()) {
-                    this.highScores.add(i, highscore);
-                    break;
-                }
-                else if(i == this.highScores.size()-1){
-                    this.highScores.add(highscore);
-                    break;
-                }
-            }
-        }
+        highScores.add(highscore);
         sortHighscoreList();
         removeExcessiveScores(highscore.getDifficulty());
     }
@@ -80,17 +66,17 @@ public class HighscoreHandler {
     }
 
     public void saveData() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(folderPath+ FILEPATH))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(Paths.get(folderPath + FILEPATH)))) {
             out.writeObject(this.highScores);
-            System.out.println("Saved scores to file.");
+            System.out.println("Saved scores to file " + FILEPATH);
         } catch (Exception e) {
-            System.out.println("Could not write to file.");
+            System.out.println("Could not write to file " + FILEPATH);
             e.printStackTrace();
         }
     }
 
     private void createFile() {
-        File file = new File(folderPath+ FILEPATH);
+        File file = new File(folderPath + FILEPATH);
         try {
             if(file.createNewFile()) System.out.println("File created with the name: " + FILEPATH);
             else System.out.println("File already exists with name: " + FILEPATH);
