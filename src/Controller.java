@@ -14,7 +14,8 @@ public class Controller extends JFrame {
     private final JPanel basePanel;
     private final HighscoreHandler highscoreHandler = HighscoreHandler.getInstance();
 
-    public Controller(){
+    public Controller(boolean startedByBatFile){
+        highscoreHandler.setFolderPath(startedByBatFile);
         gameOptions = new GameOptions(GameOptions.EASY);
 
         MSMenuBar mSMenuBar = new MSMenuBar(this);

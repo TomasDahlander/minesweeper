@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +16,15 @@ public class HighscoreHandler {
 
     private static final HighscoreHandler SINGLE_INSTANCE = new HighscoreHandler();
     private static final String FILEPATH = "highscore.ser";
+    private String folderPath = "";
     private List<Highscore> highScores;
 
     private HighscoreHandler() {
         this.highScores = new ArrayList<>();
+    }
+
+    public void setFolderPath(boolean startedByBatFile){
+        if(startedByBatFile) folderPath = "../";
         this.createFile();
         this.loadData();
     }
@@ -62,7 +69,7 @@ public class HighscoreHandler {
 
     @SuppressWarnings("unchecked")
     private void loadData() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILEPATH))) {
+        try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(Paths.get(folderPath+ FILEPATH)))) {
             this.highScores = (List<Highscore>) in.readObject();
         } catch (EOFException e) {
             System.out.println("End of file reached.");
@@ -73,7 +80,7 @@ public class HighscoreHandler {
     }
 
     public void saveData() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILEPATH))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(folderPath+ FILEPATH))) {
             out.writeObject(this.highScores);
             System.out.println("Saved scores to file.");
         } catch (Exception e) {
@@ -83,7 +90,7 @@ public class HighscoreHandler {
     }
 
     private void createFile() {
-        File file = new File(FILEPATH);
+        File file = new File(folderPath+ FILEPATH);
         try {
             if(file.createNewFile()) System.out.println("File created with the name: " + FILEPATH);
             else System.out.println("File already exists with name: " + FILEPATH);
@@ -108,7 +115,7 @@ public class HighscoreHandler {
 
     public void exportToWord(){
         String today = LocalDate.now().toString();
-        try(PrintWriter printer = new PrintWriter(new BufferedWriter(new FileWriter("Minesweeper " + today + ".doc")))){
+        try(PrintWriter printer = new PrintWriter(new BufferedWriter(new FileWriter(folderPath+"Minesweeper " + today + ".doc")))){
             printHighScoresFor(printer,GameOptions.EASY);
             printHighScoresFor(printer,GameOptions.NORMAL);
             printHighScoresFor(printer,GameOptions.HARD);
