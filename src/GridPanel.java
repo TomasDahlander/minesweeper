@@ -14,8 +14,8 @@ public class GridPanel extends JPanel {
     private final Controller controller;
     private final GameOptions gameOptions;
 
-    private Grid[][] grid;
-    private final List<Grid> mineLocations;
+    private Cell[][] grid;
+    private final List<Cell> mineLocations;
 
     private boolean gameStopped;
     private boolean started;
@@ -43,11 +43,11 @@ public class GridPanel extends JPanel {
     }
 
     private void setUpGrid(){
-        grid = new Grid[gameOptions.getGridRows()][gameOptions.getGridCols()];
+        grid = new Cell[gameOptions.getGridRows()][gameOptions.getGridCols()];
 
         for(int r = 0; r < gameOptions.getGridRows(); r++){
             for(int c = 0; c < gameOptions.getGridCols(); c++){
-                grid[r][c] = new Grid(r,c,Grid.BLANK,this);
+                grid[r][c] = new Cell(r,c, Cell.BLANK,this);
                 this.add(grid[r][c]);
             }
         }
@@ -60,8 +60,8 @@ public class GridPanel extends JPanel {
             int row = r.nextInt(gameOptions.getGridRows());
             int col = r.nextInt(gameOptions.getGridCols());
 
-            if(!grid[row][col].getSymbolType().equals(Grid.MINE)){
-                grid[row][col].setSymbolType(Grid.MINE);
+            if(!grid[row][col].getSymbolType().equals(Cell.MINE)){
+                grid[row][col].setSymbolType(Cell.MINE);
                 mineLocations.add(grid[row][col]);
                 count++;
             }
@@ -71,7 +71,7 @@ public class GridPanel extends JPanel {
     private void addNumber(){
         for(int r = 0; r < gameOptions.getGridRows(); r++){
             for(int c = 0; c < gameOptions.getGridCols(); c++){
-                if(!grid[r][c].getSymbolType().equals(Grid.MINE)) addCorrectValueToGrid(r,c);
+                if(!grid[r][c].getSymbolType().equals(Cell.MINE)) addCorrectValueToGrid(r,c);
             }
         }
     }
@@ -81,7 +81,7 @@ public class GridPanel extends JPanel {
         for(int r = row-1; r < row+2; r++){
             for(int c = col-1; c < col+2; c++){
                 try{
-                    if(grid[r][c].getSymbolType().equals(Grid.MINE)) mines++;
+                    if(grid[r][c].getSymbolType().equals(Cell.MINE)) mines++;
                 }catch(IndexOutOfBoundsException ignored){
                     // When indexing outside of board, simply continue iteration
                 }
@@ -102,20 +102,20 @@ public class GridPanel extends JPanel {
     }
 
     // GridPanel public methods
-    public void openConnectedBlankArea(Grid initialCell){
-        Queue<Grid> grids = new LinkedList<>();
-        grids.add(initialCell);
-        while(!grids.isEmpty()){
-            Grid polled = grids.poll();
+    public void openConnectedBlankArea(Cell initialCell){
+        Queue<Cell> cells = new LinkedList<>();
+        cells.add(initialCell);
+        while(!cells.isEmpty()){
+            Cell polled = cells.poll();
             for(int r = polled.getRow()-1; r < polled.getRow()+2; r++){
                 for(int c = polled.getCol()-1; c < polled.getCol()+2; c++){
                     try{
-                        Grid cell = grid[r][c];
+                        Cell cell = this.grid[r][c];
                         if(!cell.isRevealed() && !cell.hasFlag()){
-                            if(cell.getSymbolType().equals(Grid.BLANK)){
-                                grids.add(cell);
+                            if(cell.getSymbolType().equals(Cell.BLANK)){
+                                cells.add(cell);
                                 cell.showBlank();
-                            }else if(cell.getSymbolType().equals(Grid.NUMBER)){
+                            }else if(cell.getSymbolType().equals(Cell.NUMBER)){
                                 cell.showValue();
                             }
                         }
@@ -139,7 +139,7 @@ public class GridPanel extends JPanel {
     }
 
     public void revealLeftOverMines(){
-        for(Grid mine : mineLocations){
+        for(Cell mine : mineLocations){
             if(!mine.hasFlag() && !mine.isRevealed()){
                 mine.showMineForInfo();
             }

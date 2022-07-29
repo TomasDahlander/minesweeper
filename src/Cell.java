@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
  * created at: 2022-07-12
  * using: IntelliJ IDEA
  */
-public class Grid extends JLabel {
+public class Cell extends JLabel {
 
     private static final Color BLANK_AREA = new Color(246, 235, 133);
     private static final Color COLOR_ONE = new Color(45, 79, 245);
@@ -38,7 +38,7 @@ public class Grid extends JLabel {
     private String symbolType;
     private String value;
 
-    public Grid(int row, int col,String symbolType, GridPanel gridPanel){
+    public Cell(int row, int col, String symbolType, GridPanel gridPanel){
         this.gridPanel = gridPanel;
         this.row = row;
         this.col = col;

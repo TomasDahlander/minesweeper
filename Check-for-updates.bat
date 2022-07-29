@@ -1,3 +1,3 @@
-echo "checking for updates..."
+echo "Checking for updates..."
 git fetch
 git pull
