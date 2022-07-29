@@ -17,28 +17,35 @@ public class MSMenuBar extends JMenuBar {
         this.controller = controller;
 
         // Create menu button
-        JMenu menu = new JMenu("Settings");
+        JMenu settingsMenu = new JMenu("Settings");
+        JMenu highScoreMenu = new JMenu("Highscore");
 
         // Creating menu items
         JMenuItem easy = new JMenuItem(GameOptions.EASY);
         JMenuItem normal = new JMenuItem(GameOptions.NORMAL);
         JMenuItem hard = new JMenuItem(GameOptions.HARD);
-        JMenuItem highScore = new JMenuItem("Highscore");
+        JMenuItem localHighScore = new JMenuItem("View local");
+        JMenuItem onlineHighScore = new JMenuItem("View online");
 
         // Add menu items to menu
-        menu.add(easy);
-        menu.add(normal);
-        menu.add(hard);
-        menu.add(highScore);
+        settingsMenu.add(easy);
+        settingsMenu.add(normal);
+        settingsMenu.add(hard);
+
+        highScoreMenu.add(localHighScore);
+        highScoreMenu.add(onlineHighScore);
 
         // Add settings menu to menubar
-        add(menu);
+        add(settingsMenu);
+        add(highScoreMenu);
 
-        // Add action listeners to menu items
+        // Add action listeners to settings menu items
         easy.addActionListener(getDifficultySettingListener());
         normal.addActionListener(getDifficultySettingListener());
         hard.addActionListener(getDifficultySettingListener());
-        highScore.addActionListener(getHighScoreListener());
+
+        // Add action listeners to highscore menu items
+        localHighScore.addActionListener(getHighScoreListener());
     }
 
     private ActionListener getDifficultySettingListener(){
