@@ -11,15 +11,15 @@ import java.util.List;
  * Time: 12:57 <br>
  * Project: minesweeper <br>
  */
-public class HighscoreHandler {
+public class HighScoreHandler {
     public static final String HIGHSCORE_HEADER = " Time   Date";
 
-    private static final HighscoreHandler SINGLE_INSTANCE = new HighscoreHandler();
+    private static final HighScoreHandler SINGLE_INSTANCE = new HighScoreHandler();
     private static final String FILEPATH = "highscore.ser";
     private String folderPath = "";
-    private List<Highscore> highScores;
+    private List<HighScore> highScores;
 
-    private HighscoreHandler() {
+    private HighScoreHandler() {
         this.highScores = new ArrayList<>();
     }
 
@@ -29,15 +29,15 @@ public class HighscoreHandler {
         this.loadData();
     }
 
-    public static HighscoreHandler getInstance() {
+    public static HighScoreHandler getInstance() {
         return SINGLE_INSTANCE;
     }
 
-    public List<Highscore> getHighScores() {
+    public List<HighScore> getHighScores() {
         return highScores;
     }
 
-    public void addScore(Highscore highscore) {
+    public void addScore(HighScore highscore) {
         highScores.add(highscore);
         sortHighscoreList();
         removeExcessiveScores(highscore.getDifficulty());
@@ -48,7 +48,7 @@ public class HighscoreHandler {
         for(int i = 0; i < highScores.size(); i++){
             if(highScores.get(i).getDifficulty().equalsIgnoreCase(difficulty)){
                 difficultyCount++;
-                if(difficultyCount > 5) highScores.remove(highScores.get(i));
+                if(difficultyCount > 20) highScores.remove(highScores.get(i));
             }
         }
     }
@@ -56,12 +56,15 @@ public class HighscoreHandler {
     @SuppressWarnings("unchecked")
     private void loadData() {
         try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(Paths.get(folderPath+ FILEPATH)))) {
-            this.highScores = (List<Highscore>) in.readObject();
+            this.highScores = (List<HighScore>) in.readObject();
         } catch (EOFException e) {
             System.out.println("End of file reached.");
         } catch (Exception e) {
             System.out.println("Could not load from file.");
             e.printStackTrace();
+        } catch (NoClassDefFoundError e){
+            System.out.println("Writing over existing local save file since the object model HighScore has changed");
+            saveData();
         }
     }
 
@@ -111,8 +114,8 @@ public class HighscoreHandler {
     }
 
     private void printHighScoresFor(PrintWriter printer, String difficulty){
-        printer.println(HighscoreHandler.HIGHSCORE_HEADER + " - " + difficulty);
-        for (Highscore h : highScores){
+        printer.println(HighScoreHandler.HIGHSCORE_HEADER + " - " + difficulty);
+        for (HighScore h : highScores){
             if(h.getDifficulty().equalsIgnoreCase(difficulty)){
                 printer.println(h);
             }

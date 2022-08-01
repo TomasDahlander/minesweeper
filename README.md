@@ -15,11 +15,16 @@
 
 ## <a name="req" href="#req">Requirements</a>
 You need atleast Java 1.8.0 installed on your machine to run this game.
+Also, you need git for easy updating, but it can also be downloaded via a zip file.
 
 ## <a name="play" href="#play">How to play</a>
 First you need to clone this repository.
 ```
 git clone https://github.com/TomasDahlander/minesweeper.git
+```
+Or download the zip file form link below by clicking on Code and Download Zip
+```
+https://github.com/TomasDahlander/minesweeper
 ```
 Then simply run the MineSweeper.bat file to run the game.<br>
 A terminal will open that can be minimized during play<br>
@@ -71,7 +76,7 @@ To check for updates imply run the Check-for-updates.bat file.
 
 ### <a name="implemented-updates" href="#implemented-updates">Implemented updates</a>
 * Show remaining mines without red background when game is over by win or loss.
-* Highscore board.
+* HighScore board.
 * Functionality to export highscore to word document.
 
 ## <a name="copy-right" href="#copy-right">Copy right</a>

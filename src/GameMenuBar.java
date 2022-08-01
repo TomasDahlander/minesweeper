@@ -8,12 +8,12 @@ import java.awt.event.WindowEvent;
  * created at: 2022-07-11
  * using: IntelliJ IDEA
  */
-public class MSMenuBar extends JMenuBar {
+public class GameMenuBar extends JMenuBar {
 
     private final Controller controller;
     private boolean highScoreIsUp;
 
-    public MSMenuBar(Controller controller) {
+    public GameMenuBar(Controller controller) {
         this.controller = controller;
 
         // Create menu button
@@ -45,7 +45,7 @@ public class MSMenuBar extends JMenuBar {
         hard.addActionListener(getDifficultySettingListener());
 
         // Add action listeners to highscore menu items
-        localHighScore.addActionListener(getHighScoreListener());
+        localHighScore.addActionListener(getHighScoreListener(true));
     }
 
     private ActionListener getDifficultySettingListener(){
@@ -58,11 +58,11 @@ public class MSMenuBar extends JMenuBar {
         };
     }
 
-    private ActionListener getHighScoreListener(){
+    private ActionListener getHighScoreListener(boolean isLocal){
         return e -> {
             if(!highScoreIsUp){
                 highScoreIsUp = true;
-                HighScoreWindow highScoreWindow = new HighScoreWindow();
+                HighScoreWindow highScoreWindow = new HighScoreWindow(isLocal);
                 highScoreWindow.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {

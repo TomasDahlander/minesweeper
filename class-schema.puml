@@ -1,0 +1,184 @@
+@startuml
+scale 0.8
+class MineSweeper{
+     {static}+main(String[] args)
+}
+class Controller{
+    -topPanel:TopPanel
+    -gameOptions:GameOptions
+    -gridPanel:GridPanel
+    -basePanel:BasePanel
+    -highScoreHandler:HighScoreHandler
+    +Controller(boolean startedByBatFile):
+    +stopTime():
+    +startTime():
+    +changeSmiley(String smileyUnicode):
+    +saveToHighscore():
+    +updateMineCount(int change):
+    +resetGameTo(String difficulty):
+    +resizeFrameSize():
+}
+class HighScoreHandler{
+    {static}+HIGHSCORE_HEADER:String
+    {static}-SINGLE_INSTANCE:HighScoreHandler
+    {static}-FILEPATH:String
+
+    -folderPath:String
+    -highScores:List<HighScore>
+    -HighScoreHandler():
+    +setFolderPath(boolean startedByBatFile):
+    {static}+getInstance():HighScoreHandler
+    +addScore(HighScore highscore):
+    -removeExcessiveScores(String difficulty):
+    -loadData():
+    +saveData():
+    -createFile():
+    -sortHighscoreList():
+    +exportToWord():
+    -printHighScoresFor(PrintWriter printer,String difficulty):
+}
+class GameOptions{
+    {static}+EASY:String
+    {static}+NORMAL:String
+    {static}+HARD:String
+    {static}-MINES_EASY:int
+    {static}-MINES_NORMAL:int
+    {static}-MINES_HARD:int
+
+    -gridWidth:int
+    -gridHeight:int
+    -gridRows:int
+    -gridCols:int
+    -amountOfMinesLeft:int
+    -difficulty:String
+    +GameOptions(String difficulty):
+    +reCreateInstance(String difficulty):
+    +updateMineCount(int change):int
+}
+class TopPanel{
+    {static}+WHITE_SMILEY_ICON:String
+    {static}+BLACK_SMILEY_ICON:String
+    {static}+COFFEE_ICON:String
+
+    -controller:Controller
+    -mineCount:JLabel
+    -resetFace:JLabel
+    -timeCount:JLabel
+    -timer:javax.swing.Timer
+    -seconds:int
+    +TopPanel(Controller controller):
+    +updateMineCount(int newMineCount):
+    +startTime():
+    +stopTime():
+    +resetTime():
+    +resetMineCount():
+    +changeSmiley(String smileyUnicode):
+    -getResetFaceListener():MouseAdapter
+}
+class GridPanel{
+    -controller:Controller
+    -gameOptions:GameOptions
+    -grid:Cell[][]
+    -mineLocations:List<Cell>
+    -gameStopped:boolean
+    -started:boolean
+    -revealed:int
+    -revealToFinish:int
+    +GridPanel(Controller controller,GameOptions gameOptions)
+    -calculateFinishParameters():
+    -setUpGrid():
+    -addMines():
+    -addNumber():
+    -addCorrectValueToGrid(int row,int col):
+    +startTime():
+    +changeSmiley(String smileyUnicode):
+    +updateMineCount(int change):
+    +openConnectedBlankArea(Cell initialCell):
+    +increaseRevealed():
+    +revealLeftOverMines():
+}
+class GameMenuBar{
+    -controller:Controller
+    -highScoreIsUp:boolean
+    +GameMenuBar(Controller controller):
+    -getDifficultySettingListener():ActionListener
+    -getHighScoreListener(boolean isLocal):ActionListener
+}
+class HighScore{
+    {static}-serialVersionUID:long
+
+    -time:int
+    -date:LocalDate
+    -difficulty:String
+    -name:String
+    +HighScore(int time,String difficulty):
+    +toString():String
+}
+class HighScoreMenuBar{
+    -highScoreWindow:HighScoreWindow
+    +HighScoreMenuBar(HighScoreWindow highScoreWindow):
+    -getDifficultyViewListener():ActionListener
+}
+class HighScoreWindow{
+    -scoreArea:JTextArea
+    -list:List<HighScore>
+    -highScoreMenuBar:HighScoreMenuBar
+    +HighScoreWindow(boolean isLocal):
+    -getListOfLocalHighScores():
+    -setUpNorthLayout():
+    -setUpCenterLayout():
+    -setUpExportButton():
+    +printToScoreboard(String difficulty):
+    -clearScoreBoard():
+    -setUpJFrame():
+}
+
+class Cell{
+    {static}-BLANK_AREA:Color
+    {static}-COLOR_ONE:Color
+    {static}-COLOR_TWO:Color
+    {static}-COLOR_THREE:Color
+    {static}-COLOR_FOUR:Color
+    {static}-COLOR_FIVE:Color
+    {static}-COLOR_SIX:Color
+    {static}-COLOR_SEVEN:Color
+    {static}-COLOR_EIGHT:Color
+    {static}-MINE_ICON:String
+    {static}-FLAG_ICON:String
+    {static}-BLANK_ICON:String
+    {static}+MINE:String
+    {static}+NUMBER:String
+    {static}+BLANK:String
+
+    -gridPanel:GridPanel
+    -row:int
+    -col:int
+    -revealed:boolean
+    -showFlag:boolean
+    -symbolType:String
+    -value:String
+    +Cell(int row, int col, String symbolType, GridPanel gridPanel):
+    -addDefaultMouseListener():
+    -handleRightClick():
+    -handleLeftClick():
+    -getColorByValue():Color
+    +showBlank():
+    +showValue():
+    +showMine():
+    +showMineForInfo():
+}
+
+MineSweeper --> Controller : starts
+Controller -> HighScoreHandler : uses
+Controller <-r-> TopPanel : has
+Controller -r-> GameOptions : uses
+Controller <-d-> GridPanel : has
+Controller -u-> GameMenuBar : has
+Controller -l-> HighScore : saves
+GridPanel <-r-> Cell : has
+GameMenuBar -l-> HighScoreWindow : opens & closes >
+HighScoreWindow <-u-> HighScoreMenuBar : has
+HighScoreWindow -d-> HighScore : prints
+HighScoreHandler --> HighScore : handles
+
+@enduml

@@ -17,7 +17,6 @@ public class TopPanel extends JPanel {
     public static final String COFFEE_ICON = "\u2615";
 
     private final Controller controller;
-    private final GameOptions gameOptions;
 
     private final JLabel mineCount;
     private final JLabel resetFace;
@@ -26,14 +25,13 @@ public class TopPanel extends JPanel {
     private final javax.swing.Timer timer;
     private int seconds;
 
-    public TopPanel(Controller controller, GameOptions gameOptions){
+    public TopPanel(Controller controller){
         this.controller = controller;
-        this.gameOptions = gameOptions;
         setLayout(new GridLayout(1,3));
         setBorder(new EtchedBorder(EtchedBorder.RAISED,Color.BLACK,null));
         seconds = 0;
 
-        mineCount = new JLabel(String.format("%03d",gameOptions.getAmountOfMinesLeft()),SwingConstants.LEFT);
+        mineCount = new JLabel(String.format("%03d",this.controller.getAmountOfMinesLeft()),SwingConstants.LEFT);
         resetFace = new JLabel(WHITE_SMILEY_ICON,SwingConstants.CENTER);
         timeCount = new JLabel("000",SwingConstants.RIGHT);
 
@@ -81,7 +79,7 @@ public class TopPanel extends JPanel {
     }
 
     public void resetMineCount(){
-        this.mineCount.setText(String.format("%03d",gameOptions.getAmountOfMinesLeft()));
+        this.mineCount.setText(String.format("%03d",controller.getAmountOfMinesLeft()));
     }
 
     public void changeSmiley(String smileyUnicode){
@@ -92,7 +90,7 @@ public class TopPanel extends JPanel {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                controller.resetGameTo(gameOptions.getDifficulty());
+                controller.resetGameAsIs();
             }
         };
     }

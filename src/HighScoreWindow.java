@@ -1,7 +1,6 @@
-
-
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,23 +12,28 @@ import java.util.List;
 public class HighScoreWindow extends JFrame {
 
     private final JTextArea scoreArea = new JTextArea();
-    private final List<Highscore> list;
+    private final List<HighScore> list;
 
-    public HighScoreWindow(){
-        this.list = HighscoreHandler.getInstance().getHighScores();
+    public HighScoreWindow(boolean isLocal){
+        HighScoreMenuBar highScoreMenuBar = new HighScoreMenuBar(this);
+        this.list = isLocal ? getListOfLocalHighScores() : new ArrayList<>();
         this.setLayout(new BorderLayout());
         setUpNorthLayout();
         setUpCenterLayout();
         setUpExportButton();
 
+        setJMenuBar(highScoreMenuBar);
+
         printToScoreboard(GameOptions.EASY);
-        printToScoreboard(GameOptions.NORMAL);
-        printToScoreboard(GameOptions.HARD);
 
         setUpJFrame();
     }
 
-    public void setUpNorthLayout(){
+    private List<HighScore> getListOfLocalHighScores(){
+        return HighScoreHandler.getInstance().getHighScores();
+    }
+
+    private void setUpNorthLayout(){
         JLabel header = new JLabel("Highscore");
         header.setFont(new Font(Font.MONOSPACED, Font.BOLD,24));
         JPanel topPanel = new JPanel();
@@ -37,23 +41,24 @@ public class HighScoreWindow extends JFrame {
         add(topPanel,BorderLayout.NORTH);
     }
 
-    public void setUpCenterLayout(){
+    private void setUpCenterLayout(){
         scoreArea.setEditable(false);
         scoreArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN,14));
         add(scoreArea,BorderLayout.CENTER);
     }
 
-    public void setUpExportButton(){
+    private void setUpExportButton(){
         JPanel bottomPanel = new JPanel();
         JButton exportButton = new JButton("Export to word document");
-        exportButton.addActionListener(l -> HighscoreHandler.getInstance().exportToWord());
+        exportButton.addActionListener(l -> HighScoreHandler.getInstance().exportToWord());
         bottomPanel.add(exportButton, CENTER_ALIGNMENT);
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
     public void printToScoreboard(String difficulty){
-        scoreArea.append(HighscoreHandler.HIGHSCORE_HEADER + " - " + difficulty +"\n");
-        for(Highscore h : list){
+        clearScoreBoard();
+        scoreArea.append(HighScoreHandler.HIGHSCORE_HEADER + " - " + difficulty +"\n");
+        for(HighScore h : list){
             if(h.getDifficulty().equalsIgnoreCase(difficulty)){
                 String line = h + "\n";
                 scoreArea.append(line);
@@ -62,7 +67,11 @@ public class HighScoreWindow extends JFrame {
         scoreArea.append("\n");
     }
 
-    public void setUpJFrame(){
+    private void clearScoreBoard(){
+        scoreArea.setText("");
+    }
+
+    private void setUpJFrame(){
         this.setLocation(1000,150);
         this.setSize(220,550);
         this.setResizable(false);

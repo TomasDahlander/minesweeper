@@ -8,20 +8,21 @@ import java.awt.*;
  */
 public class Controller extends JFrame {
 
-    private final TopPanel topPanel;
+    private final HighScoreHandler highScoreHandler;
     private final GameOptions gameOptions;
-    private GridPanel gridPanel;
     private final JPanel basePanel;
-    private final HighscoreHandler highscoreHandler = HighscoreHandler.getInstance();
+    private final TopPanel topPanel;
+    private GridPanel gridPanel;
 
     public Controller(boolean startedByBatFile){
-        highscoreHandler.setFolderPath(startedByBatFile);
+        highScoreHandler = HighScoreHandler.getInstance();
+        highScoreHandler.setFolderPath(startedByBatFile);
         gameOptions = new GameOptions(GameOptions.EASY);
 
-        MSMenuBar mSMenuBar = new MSMenuBar(this);
+        GameMenuBar mSMenuBar = new GameMenuBar(this);
         basePanel = new JPanel(new BorderLayout());
-        topPanel = new TopPanel(this,gameOptions);
-        gridPanel = new GridPanel(this,this.gameOptions);
+        topPanel = new TopPanel(this);
+        gridPanel = new GridPanel(this);
 
         setJMenuBar(mSMenuBar);
 
@@ -51,14 +52,30 @@ public class Controller extends JFrame {
     }
 
     public void saveToHighscore(){
-        Highscore h = new Highscore(topPanel.getSeconds(), gameOptions.getDifficulty());
-        highscoreHandler.addScore(h);
-        highscoreHandler.saveData();
+        HighScore h = new HighScore(topPanel.getSeconds(), gameOptions.getDifficulty());
+        highScoreHandler.addScore(h);
+        highScoreHandler.saveData();
     }
 
     public void updateMineCount(int change){
         int newMineCount = gameOptions.updateMineCount(change);
         topPanel.updateMineCount(newMineCount);
+    }
+
+    public void resetGameAsIs(){
+        this.resetGameTo(gameOptions.getDifficulty());
+    }
+
+    public int getAmountOfMinesLeft(){
+        return gameOptions.getAmountOfMinesLeft();
+    }
+
+    public int getGridRows(){
+        return gameOptions.getGridRows();
+    }
+
+    public int getGridCols(){
+        return gameOptions.getGridCols();
     }
 
     public void resetGameTo(String difficulty){
@@ -68,7 +85,7 @@ public class Controller extends JFrame {
         basePanel.removeAll();
         resizeFrameSize();
         topPanel.changeSmiley(TopPanel.WHITE_SMILEY_ICON);
-        gridPanel = new GridPanel(this,gameOptions);
+        gridPanel = new GridPanel(this);
         basePanel.add(topPanel,BorderLayout.NORTH);
         basePanel.add(gridPanel,BorderLayout.CENTER);
         basePanel.revalidate();

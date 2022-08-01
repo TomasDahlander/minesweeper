@@ -7,14 +7,15 @@ import java.time.LocalDate;
  * Time: 12:57 <br>
  * Project: minesweeper <br>
  */
-public class Highscore implements Serializable {
+public class HighScore implements Serializable {
     private static final long serialVersionUID = 1234567L;
 
     private final int time;
     private final LocalDate date;
     private final String difficulty;
+    private String name;
 
-    public Highscore(int time, String difficulty) {
+    public HighScore(int time, String difficulty) {
         this.time = time;
         this.difficulty = difficulty;
         this.date = LocalDate.now();
@@ -31,7 +32,12 @@ public class Highscore implements Serializable {
     public String getDifficulty() {
         return difficulty;
     }
-
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return this.name;
+    }
 }
 
 

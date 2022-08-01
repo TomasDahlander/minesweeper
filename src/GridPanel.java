@@ -12,7 +12,6 @@ import java.util.List;
 public class GridPanel extends JPanel {
 
     private final Controller controller;
-    private final GameOptions gameOptions;
 
     private Cell[][] grid;
     private final List<Cell> mineLocations;
@@ -22,12 +21,11 @@ public class GridPanel extends JPanel {
     private int revealed;
     private int revealToFinish;
 
-    public GridPanel(Controller controller,GameOptions gameOptions){
+    public GridPanel(Controller controller){
         this.controller = controller;
-        this.gameOptions = gameOptions;
         this.mineLocations = new ArrayList<>();
 
-        setLayout(new GridLayout(this.gameOptions.getGridRows(),this.gameOptions.getGridCols()));
+        setLayout(new GridLayout(this.controller.getGridRows(),this.controller.getGridCols()));
         setBorder(new EtchedBorder(EtchedBorder.RAISED,Color.BLACK,null));
 
         calculateFinishParameters();
@@ -39,14 +37,14 @@ public class GridPanel extends JPanel {
     // Setup methods
     private void calculateFinishParameters(){
         revealed = 0;
-        revealToFinish = (gameOptions.getGridRows() * gameOptions.getGridCols()) - gameOptions.getAmountOfMinesLeft();
+        revealToFinish = (controller.getGridRows() * controller.getGridCols()) - controller.getAmountOfMinesLeft();
     }
 
     private void setUpGrid(){
-        grid = new Cell[gameOptions.getGridRows()][gameOptions.getGridCols()];
+        grid = new Cell[controller.getGridRows()][controller.getGridCols()];
 
-        for(int r = 0; r < gameOptions.getGridRows(); r++){
-            for(int c = 0; c < gameOptions.getGridCols(); c++){
+        for(int r = 0; r < controller.getGridRows(); r++){
+            for(int c = 0; c < controller.getGridCols(); c++){
                 grid[r][c] = new Cell(r,c, Cell.BLANK,this);
                 this.add(grid[r][c]);
             }
@@ -56,9 +54,9 @@ public class GridPanel extends JPanel {
     private void addMines(){
         Random r = new Random();
         int count = 0;
-        while(count < gameOptions.getAmountOfMinesLeft()){
-            int row = r.nextInt(gameOptions.getGridRows());
-            int col = r.nextInt(gameOptions.getGridCols());
+        while(count < controller.getAmountOfMinesLeft()){
+            int row = r.nextInt(controller.getGridRows());
+            int col = r.nextInt(controller.getGridCols());
 
             if(!grid[row][col].getSymbolType().equals(Cell.MINE)){
                 grid[row][col].setSymbolType(Cell.MINE);
@@ -69,8 +67,8 @@ public class GridPanel extends JPanel {
     }
 
     private void addNumber(){
-        for(int r = 0; r < gameOptions.getGridRows(); r++){
-            for(int c = 0; c < gameOptions.getGridCols(); c++){
+        for(int r = 0; r < controller.getGridRows(); r++){
+            for(int c = 0; c < controller.getGridCols(); c++){
                 if(!grid[r][c].getSymbolType().equals(Cell.MINE)) addCorrectValueToGrid(r,c);
             }
         }
