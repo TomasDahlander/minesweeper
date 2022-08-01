@@ -16,7 +16,7 @@ public class HighScoreWindow extends JFrame {
 
     public HighScoreWindow(boolean isLocal){
         HighScoreMenuBar highScoreMenuBar = new HighScoreMenuBar(this);
-        this.list = isLocal ? getListOfLocalHighScores() : new ArrayList<>();
+        this.list = isLocal ? getListOfLocalHighScores() : getListOfOnlineHighScores();
         this.setLayout(new BorderLayout());
         setUpNorthLayout();
         setUpCenterLayout();
@@ -31,6 +31,12 @@ public class HighScoreWindow extends JFrame {
 
     private List<HighScore> getListOfLocalHighScores(){
         return HighScoreHandler.getInstance().getHighScores();
+    }
+
+    private List<HighScore> getListOfOnlineHighScores(){
+        // TODO: 2022-08-02 Implement settings object with url and secret to check for online scores.
+        // TODO: 2022-08-02 Add a table of highscore to the gaming backend.
+        return new ArrayList<>();
     }
 
     private void setUpNorthLayout(){
