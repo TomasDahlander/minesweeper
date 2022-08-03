@@ -15,6 +15,20 @@ public class HighScore implements Serializable {
     private final String difficulty;
     private String name;
 
+    public HighScore(int time, LocalDate date, String difficulty, String name){
+        this.time = time;
+        this.date = date;
+        this.difficulty = difficulty;
+        this.name = name;
+    }
+
+    public HighScore(int time, String date, String difficulty, String name){
+        this.time = time;
+        this.date = LocalDate.parse(date);
+        this.difficulty = difficulty;
+        this.name = name;
+    }
+
     public HighScore(int time, String difficulty) {
         this.time = time;
         this.difficulty = difficulty;
