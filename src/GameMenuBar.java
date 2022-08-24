@@ -46,6 +46,7 @@ public class GameMenuBar extends JMenuBar {
 
         // Add action listeners to highscore menu items
         localHighScore.addActionListener(getHighScoreListener(true));
+        onlineHighScore.addActionListener(getHighScoreListener(false));
     }
 
     private ActionListener getDifficultySettingListener(){

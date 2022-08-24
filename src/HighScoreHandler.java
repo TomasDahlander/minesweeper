@@ -12,7 +12,7 @@ import java.util.List;
  * Project: minesweeper <br>
  */
 public class HighScoreHandler {
-    public static final String HIGHSCORE_HEADER = " Time   Date";
+    public static final String HIGHSCORE_HEADER = " Name        Sec   Date";
 
     private static final HighScoreHandler SINGLE_INSTANCE = new HighScoreHandler();
     private static final String FILEPATH = "highscore.ser";
@@ -39,7 +39,7 @@ public class HighScoreHandler {
 
     public void addScore(HighScore highscore) {
         highScores.add(highscore);
-        sortHighscoreList();
+        sortHighscoreList(this.highScores);
         removeExcessiveScores(highscore.getDifficulty());
     }
 
@@ -48,7 +48,7 @@ public class HighScoreHandler {
         for(int i = 0; i < highScores.size(); i++){
             if(highScores.get(i).getDifficulty().equalsIgnoreCase(difficulty)){
                 difficultyCount++;
-                if(difficultyCount > 20) highScores.remove(highScores.get(i));
+                if(difficultyCount > 50) highScores.remove(highScores.get(i));
             }
         }
     }
@@ -89,33 +89,31 @@ public class HighScoreHandler {
         }
     }
 
-    private void sortHighscoreList(){
+    public static void sortHighscoreList(List<HighScore> highScores){
         highScores.sort((a,b) -> {
-            if(a.getDifficulty().equalsIgnoreCase(b.getDifficulty())){
-                return a.getTime()-b.getTime();
+            if(a.getTime() == b.getTime()){
+                if(a.getDate().isEqual(b.getDate())) return 0;
+                else return a.getDate().isBefore(b.getDate()) ? -1 : 1;
             }
-            else if(a.getDifficulty().equalsIgnoreCase(GameOptions.EASY)) return -1;
-            else if(b.getDifficulty().equalsIgnoreCase(GameOptions.EASY)) return 1;
-            else if(a.getDifficulty().equalsIgnoreCase(GameOptions.NORMAL)) return -1;
-            else if(b.getDifficulty().equalsIgnoreCase(GameOptions.NORMAL)) return 1;
-            else return 0;
+            else return a.getTime()-b.getTime();
         });
     }
 
-    public void exportToWord(){
+    public void exportToWord(boolean isLocal){
         String today = LocalDate.now().toString();
         try(PrintWriter printer = new PrintWriter(new BufferedWriter(new FileWriter(folderPath+"Minesweeper " + today + ".doc")))){
-            printHighScoresFor(printer,GameOptions.EASY);
-            printHighScoresFor(printer,GameOptions.NORMAL);
-            printHighScoresFor(printer,GameOptions.HARD);
+            printHighScoresFor(printer,GameOptions.EASY,isLocal);
+            printHighScoresFor(printer,GameOptions.NORMAL,isLocal);
+            printHighScoresFor(printer,GameOptions.HARD,isLocal);
         }catch(IOException e){
             e.printStackTrace();
         }
     }
 
-    private void printHighScoresFor(PrintWriter printer, String difficulty){
+    private void printHighScoresFor(PrintWriter printer, String difficulty, boolean isLocal){
+        List<HighScore> highScoresToExport = isLocal ? this.highScores : new ArrayList<>();
         printer.println(HighScoreHandler.HIGHSCORE_HEADER + " - " + difficulty);
-        for (HighScore h : highScores){
+        for (HighScore h : highScoresToExport){
             if(h.getDifficulty().equalsIgnoreCase(difficulty)){
                 printer.println(h);
             }

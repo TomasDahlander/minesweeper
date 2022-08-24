@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 /**
  * Created by Tomas Dahlander <br>
@@ -37,7 +38,7 @@ public class HighScore implements Serializable {
 
     @Override
     public String toString() {
-        return String.format(" %4d  %11s", time,date.toString());
+        return String.format(" %-10s %4d  %11s", name, time,date.toString());
     }
 
     public int getTime() {
@@ -51,6 +52,9 @@ public class HighScore implements Serializable {
     }
     public String getName(){
         return this.name;
+    }
+    public LocalDate getDate(){
+        return this.date;
     }
 }
 
