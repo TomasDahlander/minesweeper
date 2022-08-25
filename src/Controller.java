@@ -15,6 +15,7 @@ public class Controller extends JFrame {
     private GridPanel gridPanel;
 
     public Controller(boolean startedByBatFile){
+        // TODO: 2022-08-25 Implement a ping call in another Thread
         highScoreHandler = HighScoreHandler.getInstance();
         highScoreHandler.setFolderPath(startedByBatFile);
         gameOptions = new GameOptions(GameOptions.EASY);

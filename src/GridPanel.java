@@ -133,6 +133,7 @@ public class GridPanel extends JPanel {
             controller.changeSmiley(TopPanel.COFFEE_ICON);
             revealLeftOverMines();
             controller.saveToHighscore();
+            // TODO: 2022-08-25 Implement taking name and to send to online highscore
         }
     }
 

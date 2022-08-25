@@ -120,10 +120,10 @@ public class Cell extends JLabel {
         this.setBackground(BLANK_AREA);
     }
     public void showValue(){
-        gridPanel.increaseRevealed();
         this.revealed = true;
         this.setText(value);
         this.setForeground(getColorByValue());
+        gridPanel.increaseRevealed();
     }
     public void showMine(){
         this.revealed = true;
