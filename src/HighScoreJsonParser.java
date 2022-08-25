@@ -10,33 +10,7 @@ import java.util.Map;
  */
 public class HighScoreJsonParser {
 
-    public static String getJsonObject(){
-        return "{" +
-                "\"time\":50," +
-                "\"date\":\"2022-08-22\"," +
-                "\"difficulty\":\"Easy\"," +
-                "\"name\":\"Bengt\"" +
-                "}";
-    }
-
-    public static String getJsonList(){
-        return "[" +
-                "{" +
-                "\"time\":25," +
-                "\"date\":\"2022-05-20\"," +
-                "\"difficulty\":\"Easy\"," +
-                "\"name\":\"Arne\"" +
-                "}," +
-                "{" +
-                "\"time\":50," +
-                "\"date\":\"2022-05-25\"," +
-                "\"difficulty\":\"Normal\"," +
-                "\"name\":\"Bengt\"" +
-                "}" +
-                "]";
-    }
-
-    public static HighScore parseMapToHighScore(Map<String,String> map){
+    private static HighScore parseMapToHighScore(Map<String,String> map){
         return new HighScore(
                 Integer.parseInt(map.get("time")),
                 String.valueOf(map.get("date")),
@@ -62,7 +36,7 @@ public class HighScoreJsonParser {
         return list;
     }
 
-    public static Map<String,String> parseJsonToMap(String json){
+    private static Map<String,String> parseJsonToMap(String json){
         json = json.replaceAll("[{\" }]","");
         StringBuilder builder = new StringBuilder(json);
         Map<String,String> map = new HashMap<>();

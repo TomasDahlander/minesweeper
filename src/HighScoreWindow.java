@@ -32,13 +32,15 @@ public class HighScoreWindow extends JFrame {
     }
 
     private List<HighScore> getListOfLocalHighScores(){
-        return HighScoreHandler.getInstance().getHighScores();
+        List<HighScore> localHighScores = HighScoreHandler.getInstance().getLocalHighScores();
+        HighScoreHandler.sortHighscoreList(localHighScores);
+        return localHighScores;
     }
 
     private List<HighScore> getListOfOnlineHighScores(){
-        // TODO: 2022-08-02 Implement settings object with url and secret to check for online scores.
-        // TODO: 2022-08-02 Add a table of highscore to the gaming backend.
-        return new ArrayList<>();
+        List<HighScore> onlineHighScores = HighScoreHandler.getInstance().getOnlineHighScores();
+        HighScoreHandler.sortHighscoreList(onlineHighScores);
+        return onlineHighScores;
     }
 
     private void setUpNorthLayout(){
@@ -69,7 +71,7 @@ public class HighScoreWindow extends JFrame {
         clearScoreBoard();
         scoreArea.append(HighScoreHandler.HIGHSCORE_HEADER + " - " + difficulty +"\n");
         for(HighScore h : list){
-            if(h.getName() == null || h.getName().equals("")) h.setName("John Doe");
+            if(h.getName() == null || h.getName().equals("")) h.setName("Local play");
             if(h.getDifficulty().equalsIgnoreCase(difficulty)){
                 String line = h + "\n";
                 scoreArea.append(line);

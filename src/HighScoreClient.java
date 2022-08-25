@@ -11,13 +11,14 @@ import java.net.URL;
  */
 public class HighScoreClient {
 
-    private String baseUrl;
-    private String path;
+    private final String baseUrl;
+    private final String path;
     private URL url;
 
     public HighScoreClient(String baseUrl,String path){
         this.baseUrl = baseUrl;
         this.path = path;
+        DisableSSLVerification.disableSSL();
         computeUrl();
     }
 

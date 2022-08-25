@@ -17,10 +17,10 @@ public class HighScoreHandler {
     private static final HighScoreHandler SINGLE_INSTANCE = new HighScoreHandler();
     private static final String FILEPATH = "highscore.ser";
     private String folderPath = "";
-    private List<HighScore> highScores;
+    private List<HighScore> localHighScores;
 
     private HighScoreHandler() {
-        this.highScores = new ArrayList<>();
+        this.localHighScores = new ArrayList<>();
     }
 
     public void setFolderPath(boolean startedByBatFile){
@@ -33,22 +33,38 @@ public class HighScoreHandler {
         return SINGLE_INSTANCE;
     }
 
-    public List<HighScore> getHighScores() {
-        return highScores;
+    public List<HighScore> getLocalHighScores() {
+        return localHighScores;
+    }
+
+    public List<HighScore> getOnlineHighScores(){
+        HighScoreClient hsc = new HighScoreClient(Properties.BASE_URL,Properties.GET_ENDPOINT);
+        String s = hsc.fetchDataString();
+        return HighScoreJsonParser.parseJsonListToHighScoreList(s);
+    }
+
+    public void pingOnlineService(){
+        HighScoreClient hsc = new HighScoreClient(Properties.BASE_URL,Properties.PING_ENDPOINT);
+        String s = hsc.fetchDataString();
+        if(s.equalsIgnoreCase("OK")){
+            System.out.println("Service is " + s);
+        }else{
+            System.out.println("Service is not responding");
+        }
     }
 
     public void addScore(HighScore highscore) {
-        highScores.add(highscore);
-        sortHighscoreList(this.highScores);
+        localHighScores.add(highscore);
+        sortHighscoreList(this.localHighScores);
         removeExcessiveScores(highscore.getDifficulty());
     }
 
     private void removeExcessiveScores(String difficulty){
         int difficultyCount = 0;
-        for(int i = 0; i < highScores.size(); i++){
-            if(highScores.get(i).getDifficulty().equalsIgnoreCase(difficulty)){
+        for(int i = 0; i < localHighScores.size(); i++){
+            if(localHighScores.get(i).getDifficulty().equalsIgnoreCase(difficulty)){
                 difficultyCount++;
-                if(difficultyCount > 50) highScores.remove(highScores.get(i));
+                if(difficultyCount > 100) localHighScores.remove(localHighScores.get(i));
             }
         }
     }
@@ -56,7 +72,7 @@ public class HighScoreHandler {
     @SuppressWarnings("unchecked")
     private void loadData() {
         try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(Paths.get(folderPath+ FILEPATH)))) {
-            this.highScores = (List<HighScore>) in.readObject();
+            this.localHighScores = (List<HighScore>) in.readObject();
         } catch (EOFException e) {
             System.out.println("End of file reached.");
         } catch (Exception e) {
@@ -70,7 +86,7 @@ public class HighScoreHandler {
 
     public void saveData() {
         try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(Paths.get(folderPath + FILEPATH)))) {
-            out.writeObject(this.highScores);
+            out.writeObject(this.localHighScores);
             System.out.println("Saved scores to file " + FILEPATH);
         } catch (Exception e) {
             System.out.println("Could not write to file " + FILEPATH);
@@ -111,7 +127,7 @@ public class HighScoreHandler {
     }
 
     private void printHighScoresFor(PrintWriter printer, String difficulty, boolean isLocal){
-        List<HighScore> highScoresToExport = isLocal ? this.highScores : new ArrayList<>();
+        List<HighScore> highScoresToExport = isLocal ? this.localHighScores : new ArrayList<>();
         printer.println(HighScoreHandler.HIGHSCORE_HEADER + " - " + difficulty);
         for (HighScore h : highScoresToExport){
             if(h.getDifficulty().equalsIgnoreCase(difficulty)){
