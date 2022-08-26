@@ -72,12 +72,13 @@ in the field Run in(Kör i) and the terminal will by default be minimized.
 ## <a name="updates" href="#updates">Updates to come</a>
 To check for updates imply run the Check-for-updates.bat file.
 ### <a name="coming-updates" href="#coming-updates">Coming updates</a>
-* Functionality to save and view online highscore.
+* Implement settings file to save name and last difficulty used.
 
 ### <a name="implemented-updates" href="#implemented-updates">Implemented updates</a>
 * Show remaining mines without red background when game is over by win or loss.
 * HighScore board.
 * Functionality to export highscore to word document.
+* Functionality to save and view online highscore.
 
 ## <a name="copy-right" href="#copy-right">Copy right</a>
 Tomas Dahlander

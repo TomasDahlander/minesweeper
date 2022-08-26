@@ -15,7 +15,7 @@ public class Controller extends JFrame {
     private GridPanel gridPanel;
 
     public Controller(boolean startedByBatFile){
-        new Pinger().start();
+        startup();
         highScoreHandler = HighScoreHandler.getInstance();
         highScoreHandler.setFolderPath(startedByBatFile);
         gameOptions = new GameOptions(GameOptions.EASY);
@@ -40,6 +40,14 @@ public class Controller extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    private void startup(){
+        new Pinger().start();
+        UIManager.put("OptionPane.cancelButtonText","Cancel");
+        UIManager.put("OptionPane.noButtonText", "No");
+        UIManager.put("OptionPane.okButtonText", "Ok");
+        UIManager.put("OptionPane.yesButtonText", "Yes");
+    }
+
     public void stopTime(){
         topPanel.stopTime();
     }
@@ -52,10 +60,16 @@ public class Controller extends JFrame {
         topPanel.changeSmiley(smileyUnicode);
     }
 
-    public void saveToHighscore(){
-        HighScore h = new HighScore(topPanel.getSeconds(), gameOptions.getDifficulty());
+    public HighScore saveToLocalHighscore(String name){
+        HighScore h = new HighScore(topPanel.getSeconds(), gameOptions.getDifficulty(), name);
         highScoreHandler.addScore(h);
         highScoreHandler.saveData();
+        return h;
+    }
+
+    public void saveToOnlineScore(HighScore highScore) {
+        System.out.println("Sending highscore to server");
+        highScoreHandler.saveToOnlineServer(highScore);
     }
 
     public void updateMineCount(int change){

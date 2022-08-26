@@ -11,6 +11,5 @@ public class MineSweeper {
         }catch(IndexOutOfBoundsException e){
             new Controller(false);
         }
-
     }
 }

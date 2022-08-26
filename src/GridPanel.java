@@ -132,9 +132,23 @@ public class GridPanel extends JPanel {
             controller.stopTime();
             controller.changeSmiley(TopPanel.COFFEE_ICON);
             revealLeftOverMines();
-            controller.saveToHighscore();
-            // TODO: 2022-08-25 Implement taking name and to send to online highscore
+            String name = enterNameForHighscore();
+            HighScore highScore = controller.saveToLocalHighscore(name);
+            saveToOnlineHighScore(highScore);
         }
+    }
+
+    private String enterNameForHighscore(){
+        String name = null;
+        while(name == null || name.equals("") || name.length() > 10){
+            name = JOptionPane.showInputDialog("Fill in your name.\n1-10 characters.").trim();
+        }
+        return name;
+    }
+
+    private void saveToOnlineHighScore(HighScore highScore){
+        int choice = JOptionPane.showConfirmDialog(null, "Upload your highscore?","Online Highscore",JOptionPane.YES_NO_OPTION);
+        if(choice == 0) controller.saveToOnlineScore(highScore);
     }
 
     public void revealLeftOverMines(){

@@ -53,6 +53,16 @@ public class HighScoreHandler {
         }
     }
 
+    public void saveToOnlineServer(HighScore h) {
+        StringBuilder params = new StringBuilder("?");
+        params.append(Properties.TIME_PARAM_KEY).append("=").append(h.getTime()).append("&");
+        params.append(Properties.DATE_PARAM_KEY).append("=").append(h.getDate()).append("&");
+        params.append(Properties.DIFFICULTY_PARAM_KEY).append("=").append(h.getDifficulty()).append("&");
+        params.append(Properties.NAME_PARAM_KEY).append("=").append(h.getName());
+        HighScoreClient hsc = new HighScoreClient(Properties.BASE_URL, Properties.ADD_ENDPOINT+params);
+        hsc.fetchDataString();
+    }
+
     public void addScore(HighScore highscore) {
         localHighScores.add(highscore);
         sortHighscoreList(this.localHighScores);
@@ -136,5 +146,4 @@ public class HighScoreHandler {
         }
         printer.println();
     }
-
 }

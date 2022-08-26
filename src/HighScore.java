@@ -36,6 +36,13 @@ public class HighScore implements Serializable {
         this.date = LocalDate.now();
     }
 
+    public HighScore(int time, String difficulty, String name) {
+        this.time = time;
+        this.difficulty = difficulty;
+        this.name = name;
+        this.date = LocalDate.now();
+    }
+
     @Override
     public String toString() {
         return String.format(" %-10s %4d  %11s", name, time,date.toString());
