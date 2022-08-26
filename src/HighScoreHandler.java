@@ -49,7 +49,7 @@ public class HighScoreHandler {
         if(s.equalsIgnoreCase("OK")){
             System.out.println("Service is " + s);
         }else{
-            System.out.println("Service is not responding");
+            System.out.println("Service is not responding or your internet is not working");
         }
     }
 
