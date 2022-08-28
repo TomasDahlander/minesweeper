@@ -1,6 +1,6 @@
 # Project exclude paths
 /out/
 /.idea
-/compiled
+/compiled/
 *.ser
 *.doc
