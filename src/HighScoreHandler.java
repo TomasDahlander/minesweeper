@@ -59,8 +59,10 @@ public class HighScoreHandler {
         params.append(Properties.DATE_PARAM_KEY).append("=").append(h.getDate()).append("&");
         params.append(Properties.DIFFICULTY_PARAM_KEY).append("=").append(h.getDifficulty()).append("&");
         params.append(Properties.NAME_PARAM_KEY).append("=").append(h.getName());
+        System.out.println("Params: " + params);
         HighScoreClient hsc = new HighScoreClient(Properties.BASE_URL, Properties.ADD_ENDPOINT+params);
-        hsc.fetchDataString();
+        String result = hsc.fetchDataString();
+        System.out.println(result);
     }
 
     public void addScore(HighScore highscore) {

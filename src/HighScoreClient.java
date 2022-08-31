@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,10 +34,17 @@ public class HighScoreClient {
     }
 
     public String fetchDataString() {
-        try(BufferedReader stream = new BufferedReader(new InputStreamReader(url.openStream()))) {
-            return stream.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException("Problem opening a stream against url: " + url.toString() + "\nError: " + e);
+        int tries = 0;
+        while(tries < 3){
+            try(BufferedReader stream = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                System.out.println("Current try: " + (tries+1) + " to opening socket against:" + baseUrl + path);
+                return stream.readLine();
+            } catch (IOException e) {
+                tries++;
+            }
         }
+        String error = "Could not send highscores to online service after 3 tries for some reason.";
+        JOptionPane.showMessageDialog(null,error);
+        return error;
     }
 }
