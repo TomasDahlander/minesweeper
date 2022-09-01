@@ -69,7 +69,8 @@ public class Controller extends JFrame {
 
     public void saveToOnlineScore(HighScore highScore) {
         System.out.println("Sending highscore to server");
-        highScoreHandler.saveToOnlineServer(highScore);
+        OnlineHighScoreSender ohss = new OnlineHighScoreSender(highScore);
+        ohss.run();
     }
 
     public void updateMineCount(int change){

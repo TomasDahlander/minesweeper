@@ -76,7 +76,7 @@ public class HighScoreHandler {
         for(int i = 0; i < localHighScores.size(); i++){
             if(localHighScores.get(i).getDifficulty().equalsIgnoreCase(difficulty)){
                 difficultyCount++;
-                if(difficultyCount > 100) localHighScores.remove(localHighScores.get(i));
+                if(difficultyCount > 50) localHighScores.remove(localHighScores.get(i));
             }
         }
     }
