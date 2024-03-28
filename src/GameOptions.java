@@ -13,6 +13,13 @@ public class GameOptions {
     private static final int MINES_NORMAL = 40;
     private static final int MINES_HARD = 99;
 
+    public static final int COL_EASY = 9;
+    public static final int ROW_EASY = 9;
+    public static final int COL_NORMAL = 15;
+    public static final int ROW_NORMAL = 15;
+    public static final int COL_HARD = 30;
+    public static final int ROW_HARD = 16;
+
     private int gridWidth; // Screen width
     private int gridHeight; // Screen height
     private int gridRows; // Rows to click on
@@ -26,9 +33,9 @@ public class GameOptions {
 
     public void reCreateInstance(String difficulty){
         switch (difficulty) {
-            case EASY : {this.setGridWidth(265).setGridHeight(335).setGridCols(9).setGridRows(9).setAmountOfMinesLeft(MINES_EASY).setDifficulty(EASY); break;}
-            case NORMAL : {this.setGridWidth(445).setGridHeight(485).setGridCols(15).setGridRows(15).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL); break;}
-            case HARD : {this.setGridWidth(850).setGridHeight(515).setGridCols(30).setGridRows(16).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD); break;}
+            case EASY : {this.setGridWidth(265).setGridHeight(335).setGridCols(COL_EASY).setGridRows(ROW_EASY).setAmountOfMinesLeft(MINES_EASY).setDifficulty(EASY); break;}
+            case NORMAL : {this.setGridWidth(445).setGridHeight(485).setGridCols(COL_NORMAL).setGridRows(ROW_NORMAL).setAmountOfMinesLeft(MINES_NORMAL).setDifficulty(NORMAL); break;}
+            case HARD : {this.setGridWidth(850).setGridHeight(515).setGridCols(COL_HARD).setGridRows(ROW_HARD).setAmountOfMinesLeft(MINES_HARD).setDifficulty(HARD); break;}
         }
     }
 

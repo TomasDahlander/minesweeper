@@ -41,7 +41,7 @@ public class Controller extends JFrame {
     }
 
     private void startup(){
-        new Pinger().start();
+//        new Pinger().start();
         UIManager.put("OptionPane.cancelButtonText","Cancel");
         UIManager.put("OptionPane.noButtonText", "No");
         UIManager.put("OptionPane.okButtonText", "Ok");
@@ -65,6 +65,22 @@ public class Controller extends JFrame {
         highScoreHandler.addScore(h);
         highScoreHandler.saveData();
         return h;
+    }
+
+    public String showHint(){
+        String difficulty = gameOptions.getDifficulty();
+        switch (difficulty){
+            case GameOptions.EASY: {
+                return gridPanel.getRandomNumberThatIsLeftUnrevealedOnTheGrid(GameOptions.COL_EASY,GameOptions.ROW_EASY);
+            }
+            case GameOptions.NORMAL: {
+                return gridPanel.getRandomNumberThatIsLeftUnrevealedOnTheGrid(GameOptions.COL_NORMAL,GameOptions.ROW_NORMAL);
+            }
+            case GameOptions.HARD: {
+                return gridPanel.getRandomNumberThatIsLeftUnrevealedOnTheGrid(GameOptions.COL_HARD,GameOptions.ROW_HARD);
+            }
+        }
+        throw new IllegalArgumentException("Not setting was found");
     }
 
     public void saveToOnlineScore(HighScore highScore) {

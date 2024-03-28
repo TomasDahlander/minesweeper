@@ -134,6 +134,11 @@ public class Cell extends JLabel {
         gridPanel.revealLeftOverMines();
     }
 
+    public String getValueIfNumberAndNotRevealedOtherwiseNull(){
+        if(revealed || !symbolType.equals(NUMBER)) return null;
+        return value;
+    }
+
     public void showMineForInfo(){
         this.setText(MINE_ICON);
     }

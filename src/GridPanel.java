@@ -21,6 +21,8 @@ public class GridPanel extends JPanel {
     private int revealed;
     private int revealToFinish;
 
+    private Random random = new Random();
+
     public GridPanel(Controller controller){
         this.controller = controller;
         this.mineLocations = new ArrayList<>();
@@ -157,6 +159,19 @@ public class GridPanel extends JPanel {
                 mine.showMineForInfo();
             }
         }
+    }
+
+    public String getRandomNumberThatIsLeftUnrevealedOnTheGrid(int col, int row){
+        List<String> valuesLeftUnrevealed = new ArrayList<>();
+        for(int r = 0; r < row; r++){
+            for(int c = 0; c < col; c++){
+                String valueIfNotRevealed = grid[r][c].getValueIfNumberAndNotRevealedOtherwiseNull();
+                if(valueIfNotRevealed != null) valuesLeftUnrevealed.add(valueIfNotRevealed);
+            }
+        }
+
+        int index = random.nextInt(valuesLeftUnrevealed.size());
+        return valuesLeftUnrevealed.get(index);
     }
 
     // Getter and setters
